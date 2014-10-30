@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  phone_no: 1
+  uuid: MyString
+  passcode: MyString
+
+two:
+  phone_no: 1
+  uuid: MyString
+  passcode: MyString

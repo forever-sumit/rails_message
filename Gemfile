@@ -36,6 +36,12 @@ gem 'devise'
 # Use Active Admin for admin interface
 gem 'activeadmin', github: 'activeadmin'
 
+# Use paperclip to store Image
+gem "paperclip", "~> 4.2"
+
+# Use activeuuid for unique ID
+gem 'activeuuid'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
