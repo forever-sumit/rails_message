@@ -33,11 +33,11 @@ ActiveAdmin.register Contact do
   end
 
   action_item :only => :index do
-    link_to 'Upload Phone Numbers', :action => 'upload_phone_number'
+    link_to 'Upload Phone Numbers', :action => 'upload_phone_numbers'
   end
 
   # Put Controller part here
-  collection_action :upload_phone_number
+  collection_action :upload_phone_numbers
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
