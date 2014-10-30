@@ -29,7 +29,7 @@
           <%= menu_item "Contact", "javascript:void(0)" %>
       <% end %>
       <%= menu_group :pull => :right do %>
-        <%= menu_item "Log in as Admin" %>
+        <%= menu_item "Log in as Admin", new_admin_user_session_path, :'data-no-turbolink' => false %>
       <% end %>
     <% end %>
 
