@@ -1,0 +1,25 @@
+<div class="col-md-12">
+  <%= form_tag import_contact_admin_contacts_path, multipart: true do %>
+    <fieldset class="inputs">
+      <legend>
+        <span>Import Contacts</span>
+      </legend>
+      <ol>
+        <li id="contact_phone_no_input" class="phone input optional stringish">
+          <label class="label">Select CSV or Text File:</label>
+          <%= file_field_tag :contacts, :accept => "text/csv" %>
+        </li>
+      </ol>
+    </fieldset>
+    <fieldset class="actions">
+      <ol>
+        <li id="contact_submit_action" class="action input_action ">
+          <%= submit_tag "Import" %>
+        </li>
+        <li class="cancel">
+          <a href="/admin/contacts">Cancel</a>
+        </li>
+      </ol>
+    </fieldset>
+  <% end %>
+</div>

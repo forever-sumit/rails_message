@@ -23,8 +23,11 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
+group 'development' do
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+  gem 'spring'
+  gem 'pry'
+end
 
 # Use bootstrap for layout style
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
@@ -41,7 +44,9 @@ gem "paperclip", "~> 4.2"
 
 # Use activeuuid for unique ID
 gem 'activeuuid'
-
+gem "active_admin_import" , '2.1.1'
+gem 'rqrcode_png'
+gem 'twilio-ruby'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

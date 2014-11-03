@@ -9,7 +9,9 @@ ActiveAdmin.register Contact do
     column "QR Code" do |contact|
       image_tag(contact.qr_code.url)
     end
-    actions
+    actions do |contact|
+      link_to 'Send Message', send_message_admin_contact_path(contact), method: :post
+    end
   end
 
   filter :phone_no
@@ -39,6 +41,50 @@ ActiveAdmin.register Contact do
   # Put Controller part here
   collection_action :upload_phone_numbers
 
+  collection_action :import_contact, :method => :post do
+    file = params[:contacts]
+    begin
+      case File.extname(file.original_filename)
+      when '.csv'
+        Contact.upload_csv(file)
+        redirect_to :action => :index, :notice => "CSV imported successfully!" 
+      when '.txt'
+        Contact.upload_txt(file)
+        redirect_to :action => :index, :notice => "CSV imported successfully!" 
+      else 
+        flash[:error] = "Unknown file type: #{file.original_filename}. Please upload .csv or .txt file"
+        render "upload_phone_numbers"
+      end
+    rescue Exception => e
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
+      flash[:error] = "something wrong"
+      render "upload_phone_numbers"
+    end 
+  end  
+
+  batch_action :send_messages do |selection|
+    contacts = Contact.where("id in(?)", params[:collection_selection])
+    contacts.each do |contact|
+      str = "Please click on the link "
+      str << admin_contacts_url({uuid: contact.uuid}).to_s
+      str << "\nYour passcode is #{contact.passcode}"
+      begin
+        Client.messages.create(from: '+12014686650', to: contact.phone_no, body: str)
+      rescue Twilio::REST::RequestError => e
+        logger.error "error #{e}"
+      end
+    end
+    redirect_to admin_contacts_path, notice: 'Messages is send'
+  end
+
+  member_action :send_message, method: :post do
+    contact = Contact.find(params[:id])
+    message = create_message(contact)
+    Contact.send_message(message, contact)
+    redirect_to admin_contacts_path, notice: 'Message is sent'
+  end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -53,4 +99,13 @@ ActiveAdmin.register Contact do
   # end
 
   permit_params :phone_no
+
+  controller do
+    def create_message(contact)
+      str = "Please click on the link "
+      str << admin_contacts_url({uuid: contact.uuid}).to_s
+      str << "\nYour passcode is #{contact.passcode}"
+    end
+  end 
+
 end
