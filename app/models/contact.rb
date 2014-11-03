@@ -17,7 +17,7 @@ class Contact < ActiveRecord::Base
       row.compact.each do |cdata|
         self.create!(phone_no: cdata.strip)
       end
-    end 
+    end
   end
 
   def self.upload_txt(txt_data)
@@ -27,9 +27,9 @@ class Contact < ActiveRecord::Base
     end
   end
 
-  def self.send_message(message, contact)
+  def send_message(message)
     begin
-      Client.messages.create(from: '+12014686650', to: contact.phone_no, body: message)
+      Client.messages.create(from: '+12014686650', to: self.phone_no, body: message)
     rescue Twilio::REST::RequestError => e
       logger.error "error #{e}"
     end
