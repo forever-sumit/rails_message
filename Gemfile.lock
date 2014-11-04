@@ -82,6 +82,7 @@ GEM
     formtastic (3.0.0)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.1.1)
+    gritter (1.1.0)
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
@@ -98,6 +99,9 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.2)
       railties (>= 3.2.16)
+    jquery-validation-rails (1.12.0)
+      railties (>= 3.2, < 5.0)
+      thor (~> 0.14)
     json (1.8.1)
     jwt (1.0.0)
     kaminari (0.16.1)
@@ -116,13 +120,13 @@ GEM
     mime-types (1.25.1)
     minitest (5.4.2)
     multi_json (1.10.1)
+    mysql2 (0.3.16)
     orm_adapter (0.5.0)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    pg (0.17.1)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     polyglot (0.3.5)
@@ -342,11 +346,13 @@ DEPENDENCIES
   activeuuid
   coffee-rails (~> 4.0.0)
   devise
+  gritter (= 1.1.0)
   jbuilder (~> 2.0)
   jquery-rails
+  jquery-validation-rails
   less-rails
+  mysql2
   paperclip (~> 4.2)
-  pg
   pry
   rails (= 4.1.5)
   rails_12factor

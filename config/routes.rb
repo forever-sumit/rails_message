@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   get :enter_passcode, to: 'welcome#enter_passcode'
-
+  post :check_passcode, to: 'welcome#check_passcode'
+  get :get_qr_code, to: 'welcome#get_qr_code'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

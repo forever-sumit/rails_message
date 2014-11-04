@@ -1,0 +1,44 @@
+<% if @contact.is_valid_url? %>
+  <p> Please enter the pass code to get the QR Code. <i>(A simple lead-in and instruction)</i> </p>
+
+  <%= form_tag check_passcode_path, class: 'form-horizontal', id: 'check-form' do %>
+    <center>
+      <div class="form-group">
+        <%= hidden_field_tag :uuid, @contact.uuid %>
+        <%= text_field_tag :passcode, "", placeholder: "123abc (a passcode combined by letter and number)", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag :Enter, class: 'btn btn-primary' %>
+      </div>
+    </center>
+  <% end %>
+<% else %>
+  <center>
+    <h4>You have 10 invalid attempts. This url is no longer valid for you.</h4>
+  </center>
+<% end %>
+
+<script>
+   $(function() {
+
+    // Setup form validation on the #register-form element
+    $("#check-form").validate({
+
+        // Specify the validation rules
+        rules: {
+            passcode: "required"
+        },
+
+        // Specify the validation error messages
+        messages: {
+            passcode: "Please enter your passcode"
+        },
+
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+  });
+
+</script>

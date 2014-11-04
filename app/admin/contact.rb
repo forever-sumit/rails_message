@@ -9,8 +9,15 @@ ActiveAdmin.register Contact do
     column "QR Code" do |contact|
       image_tag(contact.qr_code.url)
     end
+    column :sent_at do |contact|
+      contact.sent_at ? contact.sent_at.strftime('%d %b, %Y %l:%M %p') : "Not send"
+    end
     actions do |contact|
-      link_to 'Send Message', send_message_admin_contact_path(contact)
+      if contact.sent_at.blank?
+        link_to 'Send Message', send_message_admin_contact_path(contact)
+      else
+        link_to 'Resend Message', resend_message_admin_contact_path(contact)
+      end
     end
   end
 
@@ -78,6 +85,14 @@ ActiveAdmin.register Contact do
 
   member_action :send_message do
     contact = Contact.find(params[:id])
+    message = create_message(contact)
+    contact.send_message(message)
+    redirect_to admin_contacts_path, notice: 'Message sent'
+  end
+
+  member_action :resend_message do
+    contact = Contact.find(params[:id])
+    contact.regenerate_data()
     message = create_message(contact)
     contact.send_message(message)
     redirect_to admin_contacts_path, notice: 'Message sent'

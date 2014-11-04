@@ -6,11 +6,7 @@ class Contact < ActiveRecord::Base
   before_create :create_other_attributes
   before_create :generate_qrcode
   after_create :delete_temp_qrcode
-
-  def create_other_attributes
-    self.uuid = UUIDTools::UUID.random_create.to_s
-    self.passcode = Devise.friendly_token.first(8)
-  end
+  before_update :make_code_invalid
 
   def self.upload_csv(csv_data)
     CSV.foreach(csv_data.path, :headers => false) do |row|
@@ -30,12 +26,30 @@ class Contact < ActiveRecord::Base
   def send_message(message)
     begin
       Client.messages.create(from: '+12014686650', to: self.phone_no, body: message)
+      self.sent_at = DateTime.now
+      self.save
     rescue Twilio::REST::RequestError => e
       logger.error "error #{e}"
     end
   end
 
+  def is_valid_url?
+    !is_invalid
+  end
+
+  def regenerate_data()
+    self.passcode = Devise.friendly_token.first(8)
+    self.attempted_count = 0
+    self.is_invalid = false
+    self.save
+  end
+
   private
+
+  def create_other_attributes
+    self.uuid = UUIDTools::UUID.random_create.to_s
+    self.passcode = Devise.friendly_token.first(8)
+  end
 
   def generate_qrcode
     qr = RQRCode::QRCode.new( self.uuid, :size => 10, :level => :l )
@@ -49,6 +63,10 @@ class Contact < ActiveRecord::Base
   def delete_temp_qrcode
     file_name = Rails.root.to_s + "/public/" + self.qr_code.original_filename
     File.delete(file_name)
+  end
+
+  def make_code_invalid
+    self.is_invalid = true if self.attempted_count == 10
   end
 
 end
