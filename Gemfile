@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
 # Use mysql2 as the database for Active Record
-gem 'mysql2'
+gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -44,9 +44,13 @@ gem "paperclip", "~> 4.2"
 
 # Use activeuuid for unique ID
 gem 'activeuuid'
-gem "active_admin_import" , '2.1.1'
+
+# Use rqrcode_png to generate the QR Code
 gem 'rqrcode_png'
+
+# Use twilio-ruby to send message on mobile
 gem 'twilio-ruby'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -59,3 +63,5 @@ gem 'twilio-ruby'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Use rails_12factor for heroku with rails 4
+gem 'rails_12factor', group: :production
