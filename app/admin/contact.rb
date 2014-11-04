@@ -100,9 +100,10 @@ ActiveAdmin.register Contact do
 
   controller do
     def create_message(contact)
-      str = "Please click on the link "
-      str << admin_contacts_url({uuid: contact.uuid}).to_s
-      str << "\nYour passcode is #{contact.passcode}"
+      str = enter_passcode_url({uuid: contact.uuid})
+      #str = "Please click on the link "
+      #str << "<a href=#{enter_passcode_url({uuid: contact.uuid})} > #{enter_passcode_url({uuid: contact.uuid})} </a>"
+      #str << "\nYour passcode is #{contact.passcode}"
     end
   end
 
