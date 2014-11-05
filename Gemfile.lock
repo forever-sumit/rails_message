@@ -127,6 +127,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    phonie (3.1.5)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     polyglot (0.3.5)
@@ -353,6 +354,7 @@ DEPENDENCIES
   less-rails
   mysql2
   paperclip (~> 4.2)
+  phonie
   pry
   rails (= 4.1.5)
   rails_12factor

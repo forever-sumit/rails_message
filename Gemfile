@@ -57,6 +57,9 @@ gem 'jquery-validation-rails'
 # Use gritter to show error message
 gem "gritter", "1.1.0"
 
+# Use global_phone to valid the phone number
+gem 'phonie'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

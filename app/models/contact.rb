@@ -3,6 +3,8 @@ class Contact < ActiveRecord::Base
   has_attached_file :qr_code
   validates_attachment :qr_code, content_type: { content_type: /\Aimage\/.*\Z/ }
 
+  validates_presence_of :phone_no
+  before_create :validate_phone, if: "!phone_no.blank?"
   before_create :create_other_attributes
   before_create :generate_qrcode
   after_create :delete_temp_qrcode
@@ -11,7 +13,7 @@ class Contact < ActiveRecord::Base
   def self.upload_csv(csv_data)
     CSV.foreach(csv_data.path, :headers => false) do |row|
       row.compact.each do |cdata|
-        self.create!(phone_no: cdata.strip)
+        self.create(phone_no: cdata.strip)
       end
     end
   end
@@ -19,7 +21,7 @@ class Contact < ActiveRecord::Base
   def self.upload_txt(txt_data)
     file_data = txt_data.read.split(",\n")
     file_data.each do |data|
-      self.create!(phone_no: data.strip)
+      self.create(phone_no: data.strip)
     end
   end
 
@@ -67,6 +69,16 @@ class Contact < ActiveRecord::Base
 
   def make_code_invalid
     self.is_invalid = true if self.attempted_count == 10
+  end
+
+  def validate_phone
+    if Phonie::Phone.parse self.phone_no
+      self.phone_no = "+#{self.phone_no}" unless self.phone_no.include?('+')
+    else
+      self.errors.add(:phone_no, "#{self.phone_no} is not a valid number.")
+      return false
+    end
+    true
   end
 
 end
