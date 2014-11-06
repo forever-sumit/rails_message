@@ -27,7 +27,7 @@ class Contact < ActiveRecord::Base
 
   def send_message(message)
     begin
-      Client.messages.create(from: '+12014686650', to: self.phone_no, body: message)
+      Client.messages.create(from: TWILIO_NUMBER, to: self.phone_no, body: message)
       self.sent_at = DateTime.now
       self.save
     rescue Twilio::REST::RequestError => e
