@@ -12,7 +12,7 @@ else
 end
 
 # set up a client to talk to the Twilio REST API
-Client = Twilio::REST::Client.new account_sid, auth_token
+Client = Twilio::REST::Client.new TWILIO_SID, TWILIO_AUTH_TOKEN
 
 # alternatively, you can preconfigure the client like so
 Twilio.configure do |config|
